@@ -1,0 +1,28 @@
+.contactList{
+  width: 350px;
+  padding: 20px;
+ 
+  margin: 0 auto;
+  border: 5px outset #999999;
+}
+.contactItem{
+  font-size: 20px;
+  font-family: cursive;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.contactItem:last-of-type{
+  margin-bottom: 0;
+}
+.contactButton{
+  background: #878787;
+  padding: 5px;
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+}
+.contactButton:hover{
+  background: #434343;
+  color: rgb(208, 205, 205);
+}

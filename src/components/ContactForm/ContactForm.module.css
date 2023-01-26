@@ -1,0 +1,41 @@
+
+.form{
+  grid-template-rows: auto;
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    width: 350px;
+    margin: 0 auto;
+    border: 5px double #999999;
+}
+
+.name{
+  font-size: larger;
+    display: flex;
+    justify-content: space-between;
+}
+.input{
+  border: 3px groove #2e2e2e;
+
+}
+.input:hover{
+  border: 3px groove #aedbff;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+.button{
+  background: #878787;
+    font-size: 20px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 5px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor:pointer;
+  
+}
+.button:hover{
+  background: #434343;
+  color: rgb(208, 205, 205);
+}
