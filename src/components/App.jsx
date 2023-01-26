@@ -25,9 +25,9 @@ class App extends React.Component{
           }
         
 
-  checkNameInPhonebook = userName => {                //ФІЛЬТР ПО ІМЕНІ-ДЕ (userName)-ЦЕ ІМЯ ЯКЕ МИ ПОЛУЧАЄМО ЯКЕ МИ ВОДИМО В ІНПУТ З НАЗВОЮ ІМЕНІВ КОНТАКТУ
-    const { contacts } = this.state;                  //МИ ПОЛУЧАЄМО ДОСТУП ДО { contacts } = this.state;
-    return contacts.some(({ name }) => name.toLowerCase() === userName.toLowerCase());  //ПОРІВНЮЄМО ІМЯ В КОНТАКТАХ ЯКІ ВЖЕ Є З ТИ ЩО МИ ВОДИМО , ПРИВОДИМО ДО МАЛОЇ ЛІТЕРИ
+  checkNameInPhonebook = userName => {                
+    const { contacts } = this.state;                  ;
+    return contacts.some(({ name }) => name.toLowerCase() === userName.toLowerCase());  
   };
 
   addContact = (userName, userTel) => {                   // ДОБАВЛЯЄМО КОНТАКТИ В НАШ STATE.CONTACT (ПЕРЕДАЄМО В CONTACTFORM)
