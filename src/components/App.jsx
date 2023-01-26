@@ -13,16 +13,18 @@ class App extends React.Component{
     }
     componentDidMount(){                                                  //рендерить розмітку з початкового стану тільки один раз тобто при загрузці
       const contacts=  JSON.parse(localStorage.getItem('my-contacts')); //тут ми забрали наші номера шо ми добавляли раніше в localStorage 
-      if(contacts&&contacts.length){ 
-        this.setState({contacts})                                         //а тут зарендерили 
+       console.log(`Довжина contacts.length :`, contacts.length) 
+      if(contacts&&contacts.length){ //ТУТПЕРЕВІРЯЄМО localStorage(якшо в localStorage ще нічого немає тому умова приводиться до false бо там буде 0 тому  нам нічого не треба рендерити)
+        this.setState({contacts})           //ЯКШО УМОВА ПРИВОДИТЬСЯ ДО TRU ТОБТО В LOCALSTARAGE ЩОСЬ Є ТО МИ РЕНДЕРИМО 
       } } 
 
-    componentDidUpdate(prevProps , prevState ){   //componentDidUpdate() ДОБАВЛЯЄМО В  localStorage ЗМІНИ НАЩОГО contacts:
+    componentDidUpdate(prevProps , prevState ){   //componentDidUpdate() ДОБАВЛЯЄМО В  localStorage ЗМІНИ НАЩОГО contacts-- ЦЕЙ МЕТОД ВИЗИВАЄТЬСЯ ПРИ ЗМІНІ STATE БАГАТО РАЗ 
       const{contacts}=this.state ;
     if(prevState.contacts.length!==contacts.length){
       localStorage.setItem('my-contacts' , JSON.stringify(contacts))
-    }
-          }
+      console.log(`Попередній стан prevState.contacts.length :`,prevState.contacts.length)
+      console.log(`Теперішній стан contacts.length :`,contacts.length)
+    }}
         
 
   checkNameInPhonebook = userName => {                
@@ -30,42 +32,42 @@ class App extends React.Component{
     return contacts.some(({ name }) => name.toLowerCase() === userName.toLowerCase());  
   };
 
-  addContact = (userName, userTel) => {                   // ДОБАВЛЯЄМО КОНТАКТИ В НАШ STATE.CONTACT (ПЕРЕДАЄМО В CONTACTFORM)
-    if (this.checkNameInPhonebook(userName)) {            //ЯКШО В ІМЯ ЯКЕ МИ ВОДИМО СПІВПАДАЄ З ТИМ ЩО ВЖЕ Є В STATE.CONTACTS ТО
-    return alert(`${userName} is already in contacts!`)};  //ПЛВЕРТАЄМО ПОВІДОМЛЕННЯ
-     this.setState(prevState => {          //ОТРИМУЄМО ДОСТУП ДО STATE 
+  addContact = (userName, userTel) => {                   
+    if (this.checkNameInPhonebook(userName)) {            
+    return alert(`${userName} is already in contacts!`)};  
+     this.setState(prevState => {          
       return {
-        contacts: [                       //СТВОРЮЄМО МАСИВ ОБЄКТ МАСИВІВ contacts:[] 
-          {                               //ТУДИ ЗАПИСУЄМО
-            id: nanoid(4),                //ВИПАДКОВЕ ID ЧЕРЕЗ  nanoid(4)
-            name: userName,               //name: userName, ДЕ(userName) ТЕЩО МИ БУДЕМО ВОДИТИ В ІНПУТІ З НАЗВОЮ NAME
-            number: userTel,              //name: userTel, ДЕ(userTel) ТЕЩО МИ БУДЕМО ВОДИТИ В ІНПУТІ З НАЗВОЮ NUMBER
+        contacts: [                       
+          {                              
+            id: nanoid(4),                
+            name: userName,               
+            number: userTel,              
           },
-          ...prevState.contacts,           //РОЗПИЛЮЄМО НАШ ОБЄКТ В.contacts
+          ...prevState.contacts,           
         ],
       };
     });
   };
 
-   onHendleChange = e => {          //e.target силка на обєкт (e.target.name-це те на шо ми клікнули чи водимо, в атрибуті якого є name який  дорівнює в нашому випадку name="filter")
-    this.setState({ [e.target.name]: e.target.value });//ПОЛУЧИЛИ ДОСТУ ДО STATE [e.target.name] ЦЕ БУДЕ FILTER ТОМУ ЩО В ІНПУТІ name='filter' 
-   console.log(e.target.name ,e.target.value)          //(e.target.name)----filter  , (e.target.value) те шо ми водимо в інпут
-  };                                //ТОБТО В state.filter ми записуємо те шо водимо в інпут з name='filter'
+   onHendleChange = e => {          
+    this.setState({ [e.target.name]: e.target.value });
+   console.log(e.target.name ,e.target.value)         
+  };                                
  
 
-  getFilteredContact(){                                    //  ЙДЕ ДЛЯ РЕНДЕРУ ЦЕ ОДФІЛЬТРОВАНІ КОНТАКТИ  
-    const{filter,contacts}=this.state;                     //ДОСТУП ДО STATE 
-    const normalizedFilter=filter.toLocaleLowerCase();     // ТЕ ЩО ЩАПИСАНО У ФІЛЬТРІ ПРИВОДИМО ДО МАЛИХ ЛІТЕР
-    const result=contacts.filter(({name})=>{               //БЕРЕМ НАШІ contacts ФІЛЬТРУЄМО ПО ІМЕНАХ 
-      return (name.toLocaleLowerCase().includes(normalizedFilter))  //ПОВЕРТАЄМО ТІ  ОБЄКТИ ІМЕНА ЯКИХ Є В КОНТАКТАХ І ТЕШО МИ ПИШЕМО В НАШ ІМПУТ ФІЛЬТРА ЯКИЙ ПЕРЕДАЄ ДАНІ В ФІЛЬТР
+  getFilteredContact(){                                    
+    const{filter,contacts}=this.state;                     
+    const normalizedFilter=filter.toLocaleLowerCase();     
+    const result=contacts.filter(({name})=>{           
+      return (name.toLocaleLowerCase().includes(normalizedFilter)) 
     })
     return result
 }
 
 deleteContact = id => {
-  this.setState(prevState => {                                             // УДАЛЯЄ ПО ID НОМЕРА
- const removeContact=prevState.contacts.filter(contact=>contact.id!==id);  //ВИЗИВАЄТЬСЯ ПРИ КЛІКУ НА BUTTON ТОЙ ЩО В СПИСКУ CONTACTLIST
-    return {contacts:removeContact};                                       // ТУТ BUTTON МАЄ ID МИ ЗАХОДИМО ДО КОНТАКТІВ ФІЛЬТРУЄМО І ПОВЕРТАЄМО ВСІ ОБЄКТИ КРІМ ТОГО ЩО МИ ПОРІВНЮЄМО
+  this.setState(prevState => {                                             
+ const removeContact=prevState.contacts.filter(contact=>contact.id!==id);  
+    return {contacts:removeContact};                    
   });
 };
 
