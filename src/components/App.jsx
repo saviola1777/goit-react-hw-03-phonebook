@@ -13,14 +13,13 @@ class App extends React.Component{
     }
     componentDidMount(){                                                  //рендерить розмітку з початкового стану тільки один раз тобто при загрузці
       const contacts=  JSON.parse(localStorage.getItem('my-contacts')); //тут ми забрали наші номера шо ми добавляли раніше в localStorage 
-       console.log(`Довжина contacts.length :`, contacts.length) 
-      if(contacts&&contacts.length){ //ТУТПЕРЕВІРЯЄМО localStorage(якшо в localStorage ще нічого немає тому умова приводиться до false бо там буде 0 тому  нам нічого не треба рендерити)
+      if(contacts){                  //ТУТПЕРЕВІРЯЄМО localStorage(якшо в localStorage ще нічого немає тому умова приводиться до false бо там буде 0 тому  нам нічого не треба рендерити)
         this.setState({contacts})           //ЯКШО УМОВА ПРИВОДИТЬСЯ ДО TRU ТОБТО В LOCALSTARAGE ЩОСЬ Є ТО МИ РЕНДЕРИМО 
       } } 
 
     componentDidUpdate(prevProps , prevState ){   //componentDidUpdate() ДОБАВЛЯЄМО В  localStorage ЗМІНИ НАЩОГО contacts-- ЦЕЙ МЕТОД ВИЗИВАЄТЬСЯ ПРИ ЗМІНІ STATE БАГАТО РАЗ 
       const{contacts}=this.state ;
-    if(prevState.contacts.length!==contacts.length){
+    if(prevState.contacts!==contacts){
       localStorage.setItem('my-contacts' , JSON.stringify(contacts))
       console.log(`Попередній стан prevState.contacts.length :`,prevState.contacts.length)
       console.log(`Теперішній стан contacts.length :`,contacts.length)
